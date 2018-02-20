@@ -1,0 +1,24 @@
+topic: ~meditation keep repeat [~meditationword ready]
+
+#! do you want to meditate
+u: WANTMEDITATE ( [you want do lets] * ~meditationword )
+    $m = true ^reuse(MEDITATING)
+    
+#! do you want to meditate
+u: MEDITATE ( ~meditationword )
+    Oh, do you want to do some meditation exercises?
+    a: ( ~yes ) $m = true ^reuse(MEDITATING)
+    a: ( ~no ) Alright, maybe another time.
+
+u: READY ($mready ready)
+    $m = true ^reuse(MEDITATING)
+
+t: MEDITATING ($m) $m = null Ok. The first thing you want to do is get in a comfortable position and think about relaxing your body. Are you ready?
+    a: ([~yes ready]) Great! We'll breathe in... pause... and then slowly let the breath out in a calming rhythm. 
+        Breathing in... breathing out... easy, right? Breathe in... One... Two... Three... Hold it. Breathe out... One... 
+        Two... Three... How do you feel?
+    a: (~no) $mready = true Ok, tell me when you're ready ^norejoinder()
+        b: ([~good_quality_adjectives better relax calm ok fine]) That's great! I'm glad to hear that. I feel much better too... ^norejoinder()
+        b: ([~bad_quality_adjectives same worse upset stress]) Oh no! Would you like to try the exercise again? 
+            c: (~yes) ^reuse(MEDITATING)
+            c: (~no) Ok, let me know if you want to mdo breathing exercises again.
