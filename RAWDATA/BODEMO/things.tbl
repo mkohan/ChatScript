@@ -1,0 +1,26 @@
+table: ^thing (^name ^synonym ^who ^what ^where ^why ^when ^how)
+^createfact(^synonym member ^join(~ ^name))
+^createfact(^synonym member ~entities)
+if (^who != *){
+    ^createfact(^who who ^name)
+}
+if (^what != *){
+    ^createfact(^what what ^name)
+}
+if (^where != *){
+    ^createfact(^where where ^name)
+}
+if (^why != *){
+    ^createfact(^why why ^name)
+}
+if (^when != *){
+    ^createfact(^when when ^name)
+}
+if (^how != *){
+    ^createfact(^how how ^name)
+}
+
+DATA:
+global_robotics_laboratory ["global robotics laboratory" GRL "global robot lab" "robot lab" "lab" "global lab" "global robotic laboratory" "global robotic laboratories" "global robotics laboratories"] "The Global Robotics Laboratory was started by Professor Turing and a roboticist named Zarkova Wildcoder - also known as Z - who shared a belief that everyone could benefit by having robots that care." "The Global Robotics Laboratory is a place where robots are created and learn how to better assist humans!" "The GRL is located on a private island owned by Maximilian DeVega. Im afraid Im not able to tell you its location." "The Global Robotics Laboratory was created to find ways for robots to better assist humanity." "The GRL was oficially founded in 2015" "The Global Robotics Laboratory was the idea of Maximilian DeVega, who realized that together, Professor Turing and Zarkova Wildcoder could create innovative new robots to assist humanity."
+embodied [embodied "embodied inc"] "^whoemb()" "Embodied Inc. is a company working to build robots that care about people!" "Embodied, Inc. is located in Pasadena, California." "Embodied believes that the world will be a better place if it has more caring robots in it" "Embodied was founded in 2017" * 
+runaround runaround "Runaround was written by science fiction author Isaac Asimov." "Runaround was a science fiction short story written by Isaac Asimov. The story features the first explicit appearance of the Three Laws of Robotics." "Runaround is set on the planet Mercury." * "Runaround was published in 1942." *

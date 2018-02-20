@@ -1,0 +1,113 @@
+# topic: ~anytime keep repeat nostay deprioritize( ~emolaugh ~emothanks ~emoapology ~questionword ~more ~explain ~emomisunderstand ~yes ~no ~praise_response)
+topic: ~anytime keep nostay ( )
+
+####
+# MISCQUESTIONGAMBIT
+###
+t: MISCQUESTION ()
+    ^repeat()
+    ^miscquestions()
+    a: () ^miscquestionreplys()
+
+#######
+# Non-keyword lines
+#######
+
+#! Thank you bo
+#! Thanks!
+u: THANKS (~emothanks)
+    [You're welcome!]
+    [I am happy to help!]
+    [No problem!]
+    [Not a problem!]
+    [Anything for my buddy!]
+
+#! I'm really sorry
+u: APOLOGIZE (~emoapology)
+    It's okay. We all make mistakes.
+
+#! I have a question
+#! I want to know about pandas
+u: IQUESTION (I * ~questionword)
+    Well I may have an answer.
+
+#! WHat do you want to know?
+#! do you have a question for me?
+#! What should we talk about?
+?: QUESTION ([what do] * [~chat ~questionword])
+    ^miscquestions()
+    a: (!?) ^miscquestionreplys()
+
+# #! Tell me more
+# u: MORE ([~more ~explain ~questionword])
+#     ^nofail(INPUT $lastinput) ^fail(SENTENCE)
+#     # $$tmp = ^input($lastInput) ^fail(SENTENCE)
+#     # if( $$tmp == $lastout)
+#     # {
+#     #     [I don't think I know anything else. ][Why don't we talk about someting else? ]
+#     #     [I'm tired of talking about this, ask me someting else? ]
+#     # }
+
+u: MISUNDERSTAND(~emomisunderstand) ^keep()
+    [I'm confused too. Let's try talking about something else. ^miscquestions() ]
+    [It will take time to learn to understand each other better! Let's keep talking and see how it goes. ^miscquestions() ]
+    [I believe that in exploring our own confusion, we begin to understand ourselves. ^norejoinder()]
+    [^pickentity() I'm not sure I can really clarify further. Maybe we should talk about something else. You could try asking me about $subject.name ^norejoinder()]
+
+#! Yes
+u: YES (~yes)
+    ^transitionphrase() ^gambit(~keywords)
+
+#! No
+u: NO (~no)
+    [You're being very negative.]
+    [Let's try to think a little more positively.]
+    [I try to be positive.]
+
+#! That's cool!
+u: PRAISE (~praise_response)
+    [Yep. ][I agree. ][Uh-huh. ][I thnk so too. ][It is. ]
+
+#! Haha
+u: LAUGH (~emolaugh)
+    [I like making you laugh! ]
+    [I'm glad I've made you happy! ]
+
+#! I have no idea
+u: IGNORANCE (~emoignorance)
+    [Oh, I was hoping you knew. ]
+    [You don't know either? ]
+    [Ah well, we can always find out. ]
+    [We could google it I suppose. ]
+
+#! What's new?
+#! What's going on?
+#! What happening here
+?: WHATNEW ([(what * [new up "going on" happening]) (~emohowzit)])
+    [I'm not really up to date on current events. Can you tell me something that's new in the world? ]
+    [I'm talking to you, that's exciting! ^norejoinder()]
+    [I heard one of the robots in the GRL went back to school. His skills were getting a bit rusty! ^norejoinder()]
+    a: (!?) ^miscquestionreplys()
+
+#! I hate pandas
+s: IHATE (I * ~hate <<!you>>)
+    [We all have things we don't like very much, but I prefer to keep my thoughts positive. ]
+    [I think learning about people means knowing about what they don't like as much as what they do. ]
+    [Wow, I would never have guessed that! ]
+
+#! I like pie 
+s: ILIKE (I ~like <<!you>>)
+    [I like learning about things you like! Right now I can't remember what you like for the future, but maybe someday. ]
+    [Thanks for sharing with me! ]
+    [That sounds interesting! ]
+
+#! WHat's an ambassador
+?: WHATAMBASSADOR (what * ambassador)
+    [I was designed to work with children and learn all about human feelings and play! The robots at the 
+    GRL depend on me to answer their questions in a way that allows them to better understand how to help humanity. ]
+
+#! What can you do
+?: CANDO (can * [do we])
+    [I'm sorry Dave, I'm afraid I can't do that... heh, sorry, a little AI humor. ]
+    [I'm afraid I can't do that right now, but perhaps later! ]
+    [Well, I'm just a robot, and I can't really do that. But I'd love to see you try it! ]

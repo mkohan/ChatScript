@@ -1,0 +1,45 @@
+concept: ~meditationword (meditate meditation meditating calming breathing)
+
+concept: ~activity (~hobby ~indoor_activities ~minor_outdoor_activities ~sport ~toy)
+
+concept: ~likeword (like love enjoy collect do)
+
+concept: ~questionword (on_your_mind thinking question wonder ask want_to_know)
+
+concept: ~bo_synonyms (Bo bot Bos bo_bot)
+
+concept: ~z_synonyms (zarkova zarcova's wildcoder Z Zarcova_Wildcoder)
+
+concept: ~turing_synonyms (professor professor_Turing Turing prof Hal Hal_Turing professor_Hal the_professor the_prof)
+
+concept: ~devega_synonyms (Maximilian_DeVega Maximilian DeVega Max billionaire)
+
+concept: ~asimov_synonyms (Isaac_Asimov isaac asimov)
+
+concept: ~maja_synonyms (Maja_Mataric maja mataric maya)
+
+concept: ~paolo_synonyms (Paolo_Pirjanian paolo pirjanian palo)
+
+concept: ~grl_synonyms (global_robotics_laboratory grl global_robot_lab robot_lab lab global_lab global_robotic_laboratory 
+    global_robotic_laboratories global_robotics_laboratories global_robotics)
+
+concept: ~embodied_synonyms (embodied embodied_inc)
+
+concept: ~runaround_synonyms (Runaround)
+
+# concept: ~entities (~bo_synonyms ~z_synonyms ~turing_synonyms ~devega_synonyms ~asimov_synonyms ~maja_synonyms ~paolo_synonyms 
+#     ~grl_synonyms ~embodied_synonyms ~runaround_synonyms)
+
+concept: ~key_words (Lego Legos duplo duplos jibo roomba romba dance sing educate education Skynet bitcoin bit_coin cryptocurrency truth meaning_of_life 
+    evil star_war robot_uprising three_law emotion feeling feelings ~emb_people founder found game robot robotics story movie
+    poem poetry romibo baymax beymax bemax)
+
+concept: ~emb_people (Craig Josh Lesley Marissa)
+
+concept: ~praise_response (cool neat nifty that_nice good that_great)
+
+concept: ~more MORE ( please )
+
+concept: ~game MORE ( global_thermonuclear_war )
+
+concept: ~movie MORE ( coco )

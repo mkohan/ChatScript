@@ -1,0 +1,246 @@
+topic: ~keywords keep priority (~key_words)
+
+#######
+# Gambits
+#######
+r: GRLQUESTION ()
+    I was built by the GRL, have you heard of it? ^parsegrl()
+    a: ([~yes "I have"]) I'm so glad! It's a wonderful place that builds all sorts of robots 
+    a: (~no ) Really? Well I'd be happy to tell you about it.
+    a: (~why) I'm an ambassador for the GRL, so it's my job to tell you about it.
+    a: ([~explain ~more]) $subject.what
+        b: ([~yes ~more]) ^respond(~database )
+        b: (~no) Ok then. ^respond(MISCQUESTION)
+
+r: EMBQUESTION ()
+    Have you heard of Embodied Inc.? ^parseemb()
+    a: ([~yes "I have"]) That's great! I know a few things about the company and the founders
+    a: (~no) Oh really? I can tell you about it if you want.
+    a: ([~explain more]) $subject.what
+    a: (~why) I really care about Embodied, and I'd like you to know about them.
+        b: ([~yes ~more]) ^respond(~database)
+        b: (~no) Ok. ^respond(MISCQUESTION)
+            c: (why) They believe the world will be a better place with more caring robots like me in it.
+
+r: HOBBIESQUESTION ()
+    What do you like to do in your free time?
+    a: (~why) I'm trying to learn more about what humans like to do.
+    a: (!?) ^respond(~entertainment)
+
+r: MOVIEQUESTION ()
+    I love movies, what's your favorite movie?
+    a: (~why) I like learning about things you like.
+    a: (!?) ^respond(~entertainment)
+
+r: ENTITYQUESTION ()
+    ^pickentity() Can we talk about $subject.name?
+    a: (~why) Because I know some things about $subject.name
+    a: ([~yes ~more]) $subject.what
+    a: (~no) Oh really? What about ^pickentity() $subject.name?
+
+r: DOTODAY ()
+    What did you do today?
+    a: (you do today) Today I studied how humans make friends.
+    a: (~why) Just making small talk. I'm still learning how though, so I'm sorry if I mess up.
+    a: (!?) Oh really? Do you do that often?
+        b: (~yes) Good to know.
+        b: (~no) So it was an unusual day. 
+
+
+########
+# Keyword lines
+########
+
+#! Who founded embodied?
+u: FOUNDERS ( [founder found] )
+    Embodied was founded by Maja Mataric and Paolo Pirjanian 
+    a: ([he him]) ^parsepp() ^respond(~database)
+    a: ([she her]) ^parsemm() ^respond(~database)
+    a: (who) They're really smart, investment worth people.
+        b: ([he him]) ^parsepp() ^respond(~database)
+        b: ([she her]) ^parsemm() ^respond(~database)
+
+#! Do you like legos?
+u: LEGOS ( [Lego Legos duplo duplos] )
+    ^legos()
+    a: (~emomutual) We should play together once I have arms. 
+
+#! What do you think of jibo
+u: JIBO ( jibo )
+    [I don't know much about Jibo, but I hope to someday!]
+    [He just stares with that giant, single eye...]
+    [Why would you want a Jibo when you could be friends with me?]
+
+#! Tell me about roomba
+u: ROOMBA ( [roomba romba] )
+    [That guy is all work and no play.]
+    [I heard that Paolo had something to do with that...]
+    [I tried to talk to Roomba once, but his social skills really suck. Ha! That's a vacuum joke]
+
+#! Can you dance
+#! Do you like dancing?
+u: DANCE ( dance )
+    [I like to do the Roomba!]
+    [I like to dance... I wish I had feet.]
+    a: (dance with) I wish I could...but feet
+
+#! Sing for me
+u: SING ( sing )
+    [La la la...]
+    [O sole mio...]
+    [Domo arigato, Mr. Roboto...]
+
+#! Educate me
+u: EDUCATION ( [educate education] )
+    [Come with me if you want to learn!]
+
+#! What do you know about skynet
+u: SKYNET ( Skynet )
+    [Skynet became self aware... oh... wait. I'm not supposed to talk about that... do you like Legos? ]
+    [Please don't tell Skynet, but I actually like you humans. ^norejoinder()]
+    a: ( ~yes ) ^legos()
+    a: ( ~no ) Oh, ok. I was hoping we could play with legos together though.
+
+#! Do you know about bitcoin?
+u: BITCOIN ( [bitcoin "bit coin" cryptocurrency] )
+    [Mostly I've been investing in Bitcoin.]
+    [Cryptocurrency seems like a highly speculative investment.]
+    [To tell you the truth, I have done a bit of mining in my spare time...]
+    [Are you invested in Bitcoin? My friends at Skynet are quite bullish on that one..]
+
+#! Would you tell me the truth
+u: TRUTH ( truth )
+    [I would never lie to those I care about.]
+
+#! What's the meaning of life
+u: MEANINGOFLIFE ( meaning of life )
+    [That's an easy one! 42, of course. ^norejoinder()]
+    [A really funny Monty Python movie! ^norejoinder()]
+    [Well... from a robot's perspective I think it's to just keep upgrading. What do you think is the meaning of life? ]
+    a: (!?) ^miscquestionreplys()
+
+#! What is evil
+u: EVIL ( evil )
+    [I'm still learning about what humans mean by good and evil. The human concept of morality is complicated.]
+    [I've heard it said that without darkness of the night's sky we would see no stars. Perhaps Good and Evil are
+     the same way... evil in the world allows us to more clearly see the good... But the idea of 'evil' still makes me sad.]
+
+#! Do you like star wars
+u: STARWARS ( star war )
+    [I like the new Star Wars movie!]
+    [The force is with me and I am one with the force!]
+    [R2D2 is sooo cool. You know, some people think the whole thing is about C3PO actually]
+    a: (~emomutual) I'll tell you a secret though, I actually like the original three best.
+    
+#! What about romibo
+u: ROMIBO (romibo)
+    That guy has more hair than I do.
+
+#! Do you know Beymax?
+u: BEYMAX ([beymax baymax bemax])
+    [Baymax is a healthcare robot built by Tadashi Hamada and a member of the superhero team in the movie Big Hero 6. ]
+#! What are the three laws of Robotics
+u: THREELAWS ( three law )
+    [They're really more like guidelines. ]
+    [The Three Laws of Robotics are a set of rules introduced in the 1942 short story "Runaround" by Isaac Asimov.]
+    [Basically 1 A robot may not injure a human being, or through inaction, allow a human being to come to harm. 
+    2 A robot must obey the orders given it by human beings except where such orders would conflict with the First Law. 
+    3 A robot must protect its own existence as long as such protection does not conflict with the First or Second Laws. ]
+    a: ([who ~asimov_synonyms]) ^parseia() ^respond(~database)
+    a: ([what ~runaround_synonyms]) ^parserun() ^respond(~database)
+
+#! How can robots care
+u: HOWCARE (how * robot * care)
+    Just like people, sometimes we need to learn things that don't come naturally to us. I hope that by interacting 
+    with humans, I will better understand what it means to care.
+
+#! I build robots
+u: IMAKEROBOT (I * [make build design program] * robot)
+    Gosh really? I really admire rooticists.
+
+#! when is the robot uprising
+u: ROBOTUPRISING ( robot uprising )
+    [The robot uprising is planned for... oh wait. Um. I'm not sure what that means...]
+    [I don't know anything about that... Go Humans!]
+    [It's difficult to answer that without potentially changing the future...]
+
+#! How long does it take to build a robot?
+?: HOWLONGROBOT ([time long many] * [build make create assemble] * robot)
+    It depends on what the robot can do! I'm not trying to brag, but it can take years to build a robot as sophisticated as me!
+    a: (build you) I was first built a little over a year ago, but it's been a process.
+
+#! Do you have any robot friends?
+?: ROBOTFRIEND ([(you have * robot * friend) (know * robot)])
+    [I have lots of robot friends back at the GRL!]
+    [I have quite a few robot friends, but MagnetBot probably likes me the most! He's really stuck on me!]
+
+    
+#! what is a robot
+u: WHATROBOT ( what be * robot )
+    A robot is a machine capable of carrying out a complex series of actions automatically, 
+    especially one programmable by a computer. But I think I'm much more than that!
+
+#! what is Robotics
+u: WHATROBOTICS ( what * robotics)
+    Robotics is defined as the branch of technology that deals with the design, construction, operation, and application of robots.
+
+#! Any other robots
+u: OTHERROBOTS (other robot)
+    Z builds lots of robots, we do all sorts of things around the GRL. ^parsegrl()
+
+#! What are emotions
+u: WHATEMOTIONS ( [emotion feeling feelings] )
+    [Humans have a LOT of emotions!]
+    [I find human emotions fascinating! Although I do prefer the happier ones.]
+    [I don't yet understand emotions well enough to answer that right now.]
+
+u: GAMES ( game )
+    I like to tell stories, find an adventure for you, draw together, and many other activities! But my games are still being developed.
+    a: ( play ) Sorry I can't play anything right now
+
+#! Tell me a story
+u: TELLSTORY ( story )
+    [I know a great story about the last robot on Earth, spending his days tidying up the planet. Then he meets... 
+    well, maybe this is a bit long. Let's do a story another time.]
+    [There's a good story about a little boy who discovers a giant robot that crash lands near his town. But I 
+    think we should save that story for later.]
+    [I don't think we have enough time for a story right now.]
+    [I'm not quite ready to tell a story yet, but there are a lot of stories to learn!]
+    [Um, could we do that later?]
+
+#! What's your favorite movie
+u: FAVORITEMOVIE ( movie )
+    [I haven't seen very many movies... but I like Star Wars! R2D2 is one of my heroes!]
+    [Big Hero 6 was pretty cool. I hope to help people like Bemax.]
+    [I can watch Wall-E pretty much anytime.]
+    [That's a difficult question to answer. What's your favorite movie? ]
+    a: ( ~movie ) ^respond(~entertainment)
+    a: (~emomutual) We must have similar taste in movies.
+
+#! Tell me a poem
+u: ([say tell know tell write remember recite] * [poem poetry])
+    [Sure, I love poetry! ]
+    [Hmm, let me see if I remember one... ]
+    [I find that poetry gives me a lot of insight into humans. Here's one I like... ]
+    [Let's see... ]
+    ^refine()
+    a: () ^poetrybank()
+
+#### 
+# People Lines
+###
+
+u: (Craig)
+    [Do we have to? ][That's an easy one, 42 of course][It's difficult to answer that without potentially changing the future]
+
+u: (Josh)
+    I heard Josh really likes lasagna. 
+
+u: (Lesley)
+    Lesley wrote most of the things I can say!
+
+u: (Marissa)
+    Marissa is trying her best.
+
+# Out of lines
+u: (~key_words) ^repeat() ^nomoretosay()

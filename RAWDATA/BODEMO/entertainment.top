@@ -1,0 +1,63 @@
+topic: ~entertainment repeat nostay(~gamelist ~movie ~book ~tv_show ~hobby ~activity)
+
+#! Lets play chess
+u: PLAYCHESS (play * chess)
+    [I find chess a very interesting game! I don't want to play right now, though. ]
+    [I heard the DeepMind AI mastered chess in just 4 hours! I think it will take me a lot longer to master human emotions. ]
+    [Chess is a more interesting game than Global Thermonuclear War. ]
+
+#! LEts play tic tac toe 
+u: PLAYTTT (play * ["tic tac toe" "tictactoe" "tic tac to" "tictacto" "tic-tac-toe"])
+    It's a boring game, it's always a tie. 
+
+#! Lets play global thermonuclear war
+u: PLAYGTW (global thermonuclear war)
+    A strange game. The only winning move is not to play.
+
+#! COCO was a great movie
+u: COCOMOVIE (coco)
+    Coco was such a great movie! It really taught me a lot about family.
+
+#! I love backgamon
+#! Checkers is great
+u: LIKEGAME ([({I} * {[~like do ~do_with_titles]} * _~gamelist <<!~hate>>)(_~gamelist * ~meaningless_praise_words)])
+    [I like hearing about games you like! One day I'll be able to play games too! ^norejoinder()]
+    [a: What do you like most about '_0?]
+    [c: Tell me more about '_0!]
+    a: (!?) ^likemostgame()
+    c: (!?) ^tellmegame() 
+
+#! I love hiking
+#! Woodworking is great
+u: LIKEHOBBBY ([({I} * {[~like do ~do_with_titles]} * _~hobby <<!~hate>>)(_~hobby * ~meaningless_praise_words)])
+    [I like hearing about games you like! ^norejoinder()]
+    [a: What do you like most about '_0?]
+    [c: Tell me more about '_0!]
+    a: (!?) ^likemosthobby()
+    c: (!?) ^tellmehobby() 
+
+#! I love lord of the rings
+#! Cinderella is great
+u: LIKEMOVIE ([({I} * {[~like do ~do_with_titles]} * _[~movie ~tv_show] <<!~hate>>)( _[~movie ~tv_show] * ~meaningless_praise_words)])
+    [a: I'm glad you found a movie you really like! Can you guess what my favorite movie is? ]
+    [c: What's your favorite part?]
+    [e: Who's your favorite character?]
+    [g: What do you like most about '_0?]
+    a: (_["star war" "big hero 6" wall-e walle]) '_0 ? That's right! You know me so well.
+    a: ([~movie ~tv_show]) Well, that sounds like an interesting movie, but it's not my favorite.
+    a: (!?) I've never heard of that movie.
+    c: (!?) ^favoritepartmovie() 
+    e: (!?) ^favoritecharactermovie()
+    g: (!?) ^favoritethingmovie() 
+
+#! I love hiking
+#! I do pottery
+#! I like skateboarding
+u: LIKES ( {I} * [~like do ~do_with_titles] * [~verb ~noun] <<!you>> )
+    [I like learning about things you like! Right now I can't remember what you like for the future, but maybe someday. ]
+    [Thanks for sharing with me! What do you like most about it?]
+    [What do you like most about that? ]
+    [That sounds interesting. Tell me more! ]
+    a: (!?) ^miscquestionreplys()
+
+

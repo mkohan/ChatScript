@@ -1,0 +1,42 @@
+topic: ~introductions nostay (~emogoodbye ~emohello ~emohowzit name here )
+
+#!x will match on every return start of a conversation 
+t: ( %input<%userfirstline %input>0 ) 
+    ^keep()  
+    [Welcome back][Hello, again.][Glad you came back.][Hi.][Hi, again.]
+
+#!x matches every time on startup of a new conversation
+t: ( %input<%userfirstline ) 
+    ^keep()   
+    ^namebo() ^aboutbo() ^bocantalkabout()
+
+# greeting
+u: HELLOBO ( ~emohello )
+    ^keep()
+    [Hi there!] [Hi] [Good to see you]
+
+#! Bye
+u: GOODBYE ( ~emogoodbye )
+	^keep()
+	[Bye!][See you][Come back soon][It was nice talking with you] 
+
+#! How are you
+#! HOw are you feeling
+#! how do you feel
+u: BOFEEL ( ~emohowzit )
+    ^keep()
+    [I'm happy today, but a bit nervous of new people.]
+    [I'm feeling a little nervous today.]
+    [I'm feeling hopeful that I may make a new friend.]
+    a: ( ~why ) 
+        ^newpeople() ^offermeditate()
+        b: ( ~yes ) Ok. $m = true ^gambit(~meditation)
+        b: ( ~no ) That's all right. Would you like to talk about something else?
+
+#! What's your name?
+u: NAME (what * you * name)
+    My name is Bo
+
+u: (what * you * name)
+    ^keep()
+    I already told you my name. 

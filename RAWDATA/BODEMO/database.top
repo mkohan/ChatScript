@@ -1,0 +1,78 @@
+topic: ~database keep nostay deprioritize (~qwords ~pronoun ~entities tell )
+
+# u: REFINESUBJECT (~entities) ^keep() ^sequence()
+#     a: (~bo_synonyms) $subject = bo
+#     a: (~z_synonyms) $subject = zarcova_wildcoder
+#     a: (~turing_synonyms) $subject = professor_turing
+#     a: (~devega_synonyms) $subject = maximilian_devega
+#     a: (~asimov_synonyms) $subject = isaac_asimov
+#     a: (~maja_synonyms) $subject = maja_mataric
+#     a: (~paolo_synonyms) $subject = paolo_pirjanian
+#     a: (~grl_synonyms) $subject = global_robotics_laboratory
+#     a: (~embodied_synonyms) $subject = emboodied
+#     a: (~runaround_synonyms) $subject = runaround
+
+u: REFINEQ (~qwords) ^keep() ^sequence()
+    a: (first name) $$qword = fname
+    a: (last name) $$qword = lname
+    a: ([gender sex]) $$qword = gender
+    a: ([~what about tell]) $$qword = what
+    a: (where) $$qword = where
+    a: (when) $$qword = when
+    a: (how) $$qword = how
+    a: (who) $$qword = who
+    a: (why) $$qword = why
+
+u: STATEDSUBJECT (~entities) ^keep() ^sequence()
+    a: (~bo_synonyms) ^parsebo()
+    a: (~z_synonyms) ^parsezw()
+    a: (~turing_synonyms) ^parsept()
+    a: (~devega_synonyms) ^parsemd()
+    a: (~asimov_synonyms) ^parseia()
+    a: (~maja_synonyms) ^parsemm()
+    a: (~paolo_synonyms) ^parsepp()
+    a: (~grl_synonyms) ^parsegrl()
+    a: (~embodied_synonyms) ^parseemb()
+    a: (~runaround_synonyms) ^parserun()
+    a: () ^reuse(KNOWNSUBJECT)
+
+u: WHATTEACH ($subject==professor_turing what * teach) ^keep()
+    He taught me how to interact with humans and support positive developmental capabilities.
+
+u: YOUBO ($subject!=bo you) ^keep()
+    $subject = bo
+
+u: STATEDSUBJECTQUESTION ($subject $$qword ~entities) ^keep() ^repeat() ^refine()
+    a: (^query(direct_vo ? $$qword $subject)) $$out = @0subject
+    a: ( ![I me my]) $$out = ^dontknow()
+
+u: KNOWNSUBJECT ($subject $$qword ~pronoun) ^keep() ^refine()
+    a: (^query(direct_vo ? $$qword $subject)) $$out = @0subject
+    a: ( ![I me my]) $$out = ^nomoretosay()
+    
+u: DOOUT ($$out) ^keep() ^eval($$out)
+
+# u: KNOWNSUBJECT ($subject [~entities ~pronoun]) ^keep() ^refine()
+#     a: ($subject.fname first name) It's $subject.fname
+#     a: ($subject.lname last name) It's $subject.lname
+#     a: ($subject.gender gender) $subject.gender
+#     a: ($subject.what [~what about tell]) $subject.what
+#     a: ($subject.where where) $subject.where
+#     a: ($subject.when when) $subject.when
+#     a: ($subject.how how) $subject.how
+#     a: ($subject.who who) $subject.who
+#     a: ($subject.why why) $subject.why
+#     a: (![I me my]) ^nomoretosay()
+
+u: (~yes) ^query(direct_vo ? what $subject) @0subject
+
+u: (~paolo_synonyms)
+    ^paolo() 
+
+u: (~maja_synonyms)
+    ^maja()
+
+u: (~entities) ^repeat() ^nomoretosay()
+
+u: (<<~qwords ~pronoun tell>>) ^repeat() ^dontknow()
+
