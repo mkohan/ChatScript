@@ -47,14 +47,23 @@ u: (< alarm test) \[ alarm=5000 \] Alarm requested.
 #     # }
 
 # If there's an entity in the user's statement, set that as the subject
-# u: (_~entities)
-# 	^query(direct_sv _0 member ?)
-# 	$subject = @0object
+u: (_~entities)
+	$subject = null
+	^query(direct_sv _0 member ?)
+	loop(){ 
+		_0 = next(FACT @0object) 
+		if( _0 != ~entities ){
+			$subject = ^burst(_0 ~) 
+			end(LOOP)
+		}
+	}
 
 u: () # main per-sentence processing
 	$_responseCount = %response
 
 	$lastInput = %originalinput # grab input from last volley
+
+	$lastTopic = %topic
 
 	# $lastout = %lastoutput
 
@@ -156,6 +165,14 @@ t: (^query(direct_v ? chatoutput ? -1 ? @9  ))  # get the sentences  (why is the
 
 	
 	$lastout = %lastoutput
+
+	if ($lastTopic != %topic )
+	{
+		if ($lastTopic == ~database)
+		{
+			$subject = null
+		}
+	}
 	# loop()
 	# {
 	# 	$$tmp = ^last(@9subject) # note last output which is quoted string

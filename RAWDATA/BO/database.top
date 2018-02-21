@@ -1,0 +1,18 @@
+topic: ~database system ()
+
+u: YOUBO ($subject!=bo $$intent == you_question) ^keep()
+    $subject = bo
+
+u: STATEDSUBJECTQUESTION ($subject $$qword ~entities) ^keep() ^repeat() ^refine()
+    a: (^query(direct_vo ? $$intent $subject)) $$out = @0subject
+    a: ( ![I me my]) $$out = ^dontknow()
+
+u: KNOWNSUBJECT ($subject $$qword ~pronoun) ^keep() ^refine()
+    a: (^query(direct_vo ? $$intent $subject)) $$out = @0subject
+    a: ( ![I me my]) $$out = ^nomoretosay()
+    
+u: DOOUT ($$out) ^keep() ^eval($$out)
+
+u: (~entities) ^repeat() ^nomoretosay()
+
+u: (<<~qwords ~pronoun tell>>) ^repeat() ^dontknow()

@@ -1,0 +1,139 @@
+# process for intent
+# shamelessly stolen from quibble honest
+topic: ~id_intent system ()
+u: ( _* ) ^refine()
+
+    #! no
+    a: ( ~noanswer  ) $$intent = disagree  
+
+    #! yes
+    a: (~yesanswer  ) $$intent = agree 
+
+    #! hello
+    a: ([~emohello ~emohowzit ] ) $$intent = greeting   
+
+    #! bye
+    a: (~emogoodbye  ) $$intent = bye   
+
+    #! I'm going to go now
+    a: (!? I *~3 ["leave you" go] *~2  [now soon] > )  $$intent = bye  
+
+    #! are you for real
+    a: (~emoskeptic  ) $$intent = skeptic  
+
+    #! thanks
+    a: (~emothanks) $$intent = thanks  
+
+    #! I'm sorry
+    a: (~emoapology) $$intent = apology  
+
+    #! ugh
+    a: (~emodisgust) $$intent = disgust  
+
+    #! beats me
+    a: (~emoignorance) $$intent = ignorance  
+
+    #! please 
+    a: (~emobeg) $$intent = beg  
+
+    #! I'm confused
+    a: (~emomisunderstand ) $$intent = you_misunderstand  
+
+    #! but you said
+    a: (~emoprotest ) $$intent = you_protest  
+
+    #! ouch
+    a: ([~emolaugh ~emosad ~emohappy  ~emosurprise ~emobored  ~emopain ~emocurse] ) $$intent = i_emotion   
+
+    #! me too
+    a: (~emomutual) $$intent = i_mutual 
+
+    # altered because pattern wasn't matching for direct comparison
+    #! I love you
+    a: (![correct right ?] _~mainsubject _0=I _*~2 ~goodness _*~2 you ) $$intent = i_like_you   
+
+    #! you are sweet
+    a: (![correct right ?] _~mainsubject _0=you < * _~mainverb _1=be _*~2 ~goodness ) $$intent = i_like_you  
+
+    #! I hate you
+    a: (![wrong ?] _~mainsubject _0=I _*~2 ~badness _*~2 you ) $$intent = i_dislike_you   
+
+    #! you are stupid
+    a: (![wrong ? ~bodily_states]  _~mainsubject _0=you < *  _~mainverb _1=be _*~2 ~badness ) $$intent = i_dislike_you  
+
+    #! I like peas
+    a: (!? << _~mainsubject _0=I  ~goodness  ~mainobject >> ) $$intent = i_like_something  
+
+    #! I hate peas
+    a: (!? _~mainsubject _0=I < * ~badness < * ~mainobject ) $$intent = i_dislike_something   
+ 
+# user perspective
+
+    #! what color is my shirt?
+    a: (? [mine my]) $$intent = my_question
+  
+    #! people like my coat
+    a: (!? _~mainsubject !_0=you < * my < * ~mainverb ) $$intent = my_fact  
+
+    #! Am I the best player?
+    a: (? ['I 'me]) $$intent = i_question   
+
+    #! I think the world is flat.
+    a: (!? _~mainsubject _0=I < * [believe think hope like dislike hate (take * on ) ] ) $$intent = i_opinion 
+ 
+    #! I eat worms
+    a: (!? _~mainsubject _0=I < * ~mainverb ) $$intent = i_fact  
+
+# bot perspective
+
+    #! will you go with me?
+    a: (? !not  < [~tell would will could can might ] * 'you ) $$intent = you_request         
+
+    #! could we go?
+    a: (? [can shall could might] we) $$intent = you_request  
+
+    #! Can I hit you?
+    a: (? < [can may shall might could ] 'I) $$intent = you_request 
+ 
+    #! what do you think?
+    a: (? << you  [~OPINION_VERBS ~opinion  like hope wish  opinion view attitude interest  hate dislike position viewpoint ] >> ) $$intent = you_opinion   
+
+    #! what color is your shirt?
+    a: (? your)  $$intent = your_question  
+
+    #! what color are you?
+    a: (? 'you) $$intent = you_question  
+ 
+    #! Your coat is blue
+    a: (!? your < * ~mainverb ) $$intent = your_fact   
+
+    #! You walk home on Sundays
+    a: (!? _~mainsubject _0=you < * ~mainverb ) $$intent = you_fact   
+
+# world perspective
+
+    #! why do people swim?
+    a: (? < ~why  ) $$intent = why 
+
+    #! how do people swim?
+    a: (?  < how  ) $$intent = how  
+
+    #! where do people swim?
+    a: (?  < where  ) $$intent = where  
+
+    #! who do people swim?
+    a: (?  < who  ) $$intent = who 
+
+    #! when do people swim?
+    a: (?  < when  ) $$intent = when 
+
+    #! what will land in the river?
+    a: (? ![tell show ~list I you we who ~why when where how]   << ~mainsubject ~mainverb >> ) $$intent = world_question  
+
+    #! is the sky blue?
+    a: (? ![I you we] ) $$intent = world_question  
+
+    #! Bees fly.
+    a: (!?  ![you I we] * ~mainsubject < * ~mainverb ) $$intent = world_fact  
+
+    a: () $$intent = unknown 

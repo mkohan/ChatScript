@@ -20,14 +20,12 @@ table: defaultbot (^name)
 DATA:
 bo
 
-topic: ~control system ()
+topic: ~control system repeat ()
 
 # on startup, do introduction
 u: ( %input<%userfirstline)
 	gambit(~introductions)
 
-u: (< ["shut up" "be quiet" "stop talking" "be silent" silence quiet] >) $shutup = 1 [oh ok][I'll be quiet then]
-u: (< talk  >) $shutup = null
 
 u: (\[ callback \]) Callback seen.
 u: (\[ loopback \]) Loopback seen.
@@ -36,17 +34,13 @@ u: (< loopback test) \[ loopback=1000 \] Loopback requested.
 u: (< callback test) \[ callback=1000 \] Callback requested.
 u: (< alarm test) \[ alarm=5000 \] Alarm requested.
 
-# #! Tell me more
-# u: MORE ([~more])
-#     ^nofail(TOPIC ^input($lastinput)) ^fail(SENTENCE)
-#     # $$tmp = ^input($lastInput) ^fail(SENTENCE)
-#     # if( $$tmp == $lastout)
-#     # {
-#     #     [I don't think I know anything else. ][Why don't we talk about someting else? ]
-#     #     [I'm tired of talking about this, ask me someting else? ]
-#     # }
+u: (< \[ ) ^respond(~oobin) ^end(SENTENCE) # process OOB data
+
 
 u: () # main per-sentence processing
+	
+	nofail(TOPIC ^respond(~preprocess)) # preprocess, extract meta info
+
 	$_responseCount = %response
 
 	$lastInput = %originalinput # grab input from last volley
@@ -80,19 +74,20 @@ u: () # main per-sentence processing
 		}
 	}	
 
-	# try for anytime lines
-	if (%response == $_responseCount) 
-	{
-		nofail(TOPIC ^respond(~anytime))
-	}
+	# having no good response written, try to extract anything from input
+	# if (%response == $_responseCount)
+	# {
+	# 	nofail(TOPIC ^respond(~intent))
 
-	# having no good response we know, now generate quibbles
-
-	# now we need to find fake responses 
-	if (%response == $_responseCount AND %rand > 50)
-	{
-		nofail(TOPIC respond(~QUIBBLE_ALL))
-	}
+	# 	if (!$subject)
+	# 	{
+	# 		nofail(TOPIC ^respond(~idunknownsubject))
+	# 	}
+	# 	if ($$intent)
+	# 	{
+	# 		nofail(TOPIC ^respond(~database))
+	# 	}
+	# }
 
 	# if we have rejoinders for what we said OR we asked a question, stop here
 	if (%outputrejoinder OR %lastquestion) 
@@ -149,7 +144,6 @@ topic: ~XPOSTPROCESS system () # gambits only - not allowed to write to  output 
 
 t: (^query(direct_v ? chatoutput ? -1 ? @9  ))  # get the sentences  (why is the object) -- no longer has quotes around it
 
-	
 	$lastout = %lastoutput
 	# loop()
 	# {

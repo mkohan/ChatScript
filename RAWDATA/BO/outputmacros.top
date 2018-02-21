@@ -1,0 +1,7 @@
+outputmacro: ^dontknow()
+[I don't know about that. ][I'm not sure I have an answer for you ][I can't answer that question, because I'm not sure. ]
+[I don't have that information. ][I don't know that right now, but maybe if you asked me later. ]
+
+outputmacro: ^nomoretosay()
+[I don't think I know anything else. ][Why don't we talk about someting else? ]
+[I'm tired of talking about this, ask me someting else? ][I don't have anything else to say about that. ]

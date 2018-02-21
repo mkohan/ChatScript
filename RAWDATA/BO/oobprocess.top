@@ -1,0 +1,11 @@
+topic: ~oobin system ()
+
+# process all oob data sent. Since we don't know what data may be sent, we process and store all of it, and 
+# it is accessed as needed
+u: (< \[ _* \]) $$oob = _0
+    # oob processing gooes here
+    
+topic: ~oobout system ()
+
+# prepare oob data
+u: ($$oob) ^postprintbefore(\[ $oob \])

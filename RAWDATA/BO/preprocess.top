@@ -1,0 +1,28 @@
+topic: ~preprocess system ()
+
+# If there's an entity in the user's statement, set that as the subject
+u: IDSUBJECT () ^refine()
+    a: (_~entities)
+        ^query(direct_sv _0 member ?)
+        loop()
+        { 
+            _0 = next(FACT @0object) 
+            if( _0 != ~entities )
+            {
+                $subject = ^burst(_0 ~) 
+                end(LOOP)
+            }
+        }
+    a: (_~noun)
+        $subject = _0
+
+# processes for sentiment
+# TODO requires a retry?
+u: IDSENTIMENT () ^respond(~sentiment) 
+
+# process for intent
+u: IDINTENT () ^respond(~id_intent)
+
+u: TEST ()  $$sentiment - $$intent - $$oob - $subject
+
+
